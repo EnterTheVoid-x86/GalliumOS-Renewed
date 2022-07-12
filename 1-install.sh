@@ -41,6 +41,55 @@ else
 fi
 echo "Installing MrChromebox Firmware Utility Script at /usr/bin/cbfwutil..."
 cd; curl -LO mrchromebox.tech/firmware-util.sh && sudo mv firmware-util.sh /usr/bin/cbfwutil && sudo chmod +x /usr/bin/cbfwutil
+echo "Installing \e[36mGalliumOS Renewed\e[0m scripts..."
+curl -LO https://raw.githubusercontent.com/EnterTheVoid-x86/GalliumOS-Renewed/main/2-themechanger.sh && sudo mv 2-themechanger.sh /usr/bin/themeify && sudo chmod +x /usr/bin/themeify
+echo "[INSTALLED] Themeify installed successfully."
+curl -LO https://raw.githubusercontent.com/EnterTheVoid-x86/GalliumOS-Renewed/main/3-installwayland.sh && sudo mv 3-installwayland.sh /usr/bin/installwayland && sudo chmod +x /usr/bin/installwayland
+echo "[INSTALLED] Wayland Installer installed successfully."
+echo "Installing emoji fonts..."
+sudo apt install fonts-noto-color-emoji
+echo "Would you like to install a code editor? (y/n)"
+read codeeditor
+if [ $codeeditor == "y" ]; then
+	echo "Please choose a code editor from the following list:"
+	echo "1. Visual Studio Code"
+	echo "2. Sublime Text"
+	echo "3. Atom"
+	echo "4. Neovim"
+	read codeeditorchoice
+	if [ $codeeditorchoice == "1" ]; then
+		echo "Installing Visual Studio Code..."
+		sudo apt install gnupg2 software-properties-common apt-transport-https wget
+		wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+		sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+		sudo apt update
+		sudo apt install code
+	elif [ $codeeditorchoice == "2" ]; then
+		echo "Installing Sublime Text..."
+		sudo apt install apt-transport-https ca-certificates curl software-properties-common
+		curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+		sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+		sudo apt update
+		sudo apt install sublime-text
+	elif [ $codeeditorchoice == "3" ]; then
+		echo "Installing Atom..."
+		sudo apt install software-properties-common apt-transport-https wget
+		wget -q https://packagecloud.io/AtomEditor/atom/gpgkey -O- | sudo apt-key add -
+		sudo add-apt-repository "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main"
+		sudo apt update
+		sudo apt install atom
+	elif [ $codeeditorchoice == "4" ]; then
+		echo "Installing Neovim..."
+		sudo apt install neovim
+	else
+		echo "Invalid input. Defaulting to Neovim..."
+		sudo apt install neovim
+	fi
+elif [ $codeeditor == "n" ]; then
+	echo "[INFO] User chose not to install a code editor."
+else
+	echo "Invalid input. Defaulting to no."
+fi			
 echo -e "\e[36mGalliumOS Renewed\e[0m is now installed. Please reboot your computer now to apply the full changes."
 
 
