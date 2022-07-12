@@ -1,5 +1,5 @@
 # GalliumOS Renewed Main Install Script
-echo "Installing Linux kernel v5.4.0-122..."
+echo "Installing Linux kernel v5.4.0-122 and the fish shell..."
 echo "Please enter your password in the following screen if requested to do so."
 sudo apt install --install-recommends linux-generic-hwe-18.04 xserver-xorg-hwe-18.04 fish
 echo "We now request you to edit your .bashrc to launch into fish upon running bash."
@@ -18,6 +18,25 @@ else
 	nano ~/.config/fish/*
 	nano ~/.config/fish/functions/*
 fi
-echo -e "\e[36mGalliumOS Renewed is now installed. Please reboot your computer now to apply the full changes."
+echo "Would you like to install any desktop environments or window managers? If so, please type the package name of one, or you can type no."
+read installadewm
+if [ $instaladewm == "no" ]; then
+	echo "[INFO] User chose not to install a desktop environemt or window manager."
+else
+	echo "Attempting to install package..."
+	sudo apt install $installadewm
+fi
+echo "Would you like to enable the built-in dark mode theme? (y/n)"
+read darkyn
+if [ $darkyn == "y" ]; then
+	echo "Setting XFCE4 theme to Arc-Dark-GalliumOS..."
+	xfconf-query -c xsettings -p /Net/ThemeName -s "Arc-Dark-GalliumOS"
+	echo "Finished setting theme to Dark."
+elif [ $darkyn == "n" ]; then
+	echo "[INFO] User chose not to set theme to Dark."
+else
+	echo "Invalid input."
+fi
+echo -e "\e[36mGalliumOS Renewed\e[0m is now installed. Please reboot your computer now to apply the full changes."
 
 
