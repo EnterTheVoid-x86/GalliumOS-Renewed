@@ -1,4 +1,6 @@
 # GalliumOS Renewed Main Install Script
+echo "Attempting to perform upgrades..."
+sudo apt upgrade
 echo "Installing Linux kernel v5.4.0-122 and the fish shell..."
 echo "Please enter your password in the following screen if requested to do so."
 sudo apt install --install-recommends linux-generic-hwe-18.04 xserver-xorg-hwe-18.04 fish
