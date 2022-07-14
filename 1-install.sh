@@ -1,9 +1,22 @@
 # GalliumOS Renewed Main Install Script
 echo "Attempting to perform upgrades..."
 sudo apt upgrade
-echo "Installing Linux kernel v5.4.0-122 and the fish shell..."
+echo "Installing Linux kernel v5.10.25 and the fish shell..."
 echo "Please enter your password in the following screen if requested to do so."
-sudo apt install --install-recommends linux-generic-hwe-18.04 xserver-xorg-hwe-18.04 fish
+sudo apt install --install-recommends fish
+curl -LO https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.10.25/amd64/linux-headers-5.10.25-051025_5.10.25-051025.202103201033_all.deb && sudo dpkg -i linux-headers-5.10.25-051025_5.10.25-051025.202103201033_all.deb
+curl -LO https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.10.25/amd64/linux-image-unsigned-5.10.25-051025-generic_5.10.25-051025.202103201033_amd64.deb
+curl -LO https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.10.25/amd64/linux-modules-5.10.25-051025-generic_5.10.25-051025.202103201033_amd64.deb
+sudo dpkg -i linux-modules-5.10.25-051025-generic_5.10.25-051025.202103201033_amd64.deb linux-image-unsigned-5.10.25-051025-generic_5.10.25-051025.202103201033_amd64.deb
+echo "Would you like me to remove the linux kernel .deb packages left over?"
+read ynrt
+if [ $ynrt == "y" ]; then
+	rm -rf *.deb
+elif [ $ynrt == "n" ]; then
+	echo "[INFO] User chose not to remove leftovers."
+else
+	echo "Invalid input. Defaulting to no."
+fi
 echo "We now request you to edit your .bashrc to launch into fish upon running bash."
 echo "Press any key to continue."
 read
